@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escuela de Ventas - Pandero</title>
+  <link rel="icon" type="image/png" href="https://www.pandero.com.pe/favicon.ico" />
+  <style>
+    /* Estilos Generales y de Login */
+    body { font-family: Arial, sans-serif; background-color: #f0f0f0; color: #333; margin: 0; padding: 0; }
+    header { background-color: 
+#0047bb; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+    header img { height: 40px; }
+    .container { max-width: 600px; margin: auto; padding: 1rem; }
+    h1, h2 { color: 
+#0047bb; }
+    button { background-color: 
+#0047bb; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; margin: 5px 0; font-size: 1rem;}
+    input, select { width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box; }
+    .hidden { display: none; }
+    a { color: 
+#0047bb; text-decoration: underline; }
+
+    /* Estilos de Retos */
+    .reto-btn { width: 100%; padding: 1rem; margin: 0.5rem 0; }
+    .reto-btn.disabled { background: gray !important; cursor: not-allowed; }
+    .enviar { background: green; padding: 0.5rem 1rem; }
+    .volver { margin-top: 1rem; background: #5A6B7A; }
+    .insignia { text-align: center; }
+    .insignia img {  width: 250px;
+  max-width: 100%; }
+
+#botonesRetos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+#botonesRetos .reto-btn {
+  width: 45%;
+  min-width: 120px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+  <div><strong>Escuela de Ventas</strong></div>
+  <img src="./img/pandero.png" alt="Logo Pandero" style="height: 40px;" />
+</header>
+
+
+  <div class="container">
+    <div id="vista-inicio">
+      <h2>🌌 Misión del Vendedor del Futuro</h2>
+<p>
+Año 2045. El mundo cambió.<br>
+Los algoritmos de <strong>SYLON</strong> dominan las decisiones de compra.  
+Pero tú no eres cualquier vendedor.  
+Has sido elegido por el Comité del Futuro Comercial.<br><br>
+<strong>Tu misión:</strong> Derrotar a SYLON. Recuperar la confianza. Reconectar con los sueños.<br>
+Cada reto que completes será una victoria contra el sistema frío e impersonal.<br><br>
+¿Estás listo para escribir tu historia?
+</p>
+      <button onclick="mostrarVista('vista-registro')">📝 Registrar a mi equipo</button>
+      <button onclick="mostrarVista('vista-login')">🔐 Ya estoy registrado</button>
+    </div>
+
+    <div id="vista-registro" class="hidden">
+      <h2>Registro del equipo</h2>
+      <input type="hidden" id="division" value="Casa" />
+<p><strong>División:</strong> Casa</p>
+<!-- Mensaje específico del registro -->
+<div id="registroMensaje" style="
+  display: none;
+  color: #c00;
+  margin-bottom: 10px;
+  font-weight: bold;
+"></div>
+
+      <label>Nombre del equipo</label>
+      <select id="equipo"><option value="">Selecciona</option><option>Halcones</option><option>Titanes</option><option>Fénix</option><option>Centellas</option><option>Jaguares</option><option>Dragones</option></select>
+      <label>DNI integrante 1</label><input id="dni1" maxlength="8" />
+      <label>DNI integrante 2</label><input id="dni2" maxlength="8" />
+      <label>DNI integrante 3</label><input id="dni3" maxlength="8" />
+      <label>DNI integrante 4</label><input id="dni4" maxlength="8" />
+      <button onclick="validarRegistro()">Registrar y Entrar</button>
+      <button class="volver" onclick="mostrarVista('vista-inicio')">Volver</button>
+      <p id="errorRegistro" style="color: red;"></p>
+    </div>
+
+    <div id="vista-login" class="hidden">
+      <h2>Accede a tu equipo</h2>
+      <input type="hidden" id="divisionLogin" value="Casa" /> 
+<p><strong>División:</strong> Casa</p>
+
+      <label>Nombre del equipo</label>
+      <select id="equipoLogin"><option value="">Selecciona</option><option>Halcones</option><option>Titanes</option><option>Fénix</option><option>Centellas</option><option>Jaguares</option><option>Dragones</option></select>
+	<label>Contraseña</label>
+<input id="claveLogin" type="password" />
+
+      <button onclick="validarIngreso()">Entrar</button>
+      <button class="volver" onclick="mostrarVista('vista-inicio')">Volver</button>
+      <p id="errorIngreso" style="color: red;"></p>
+    </div>
+
+	
+    <div id="vista-retos" class="hidden">
+      <h2>📜 Misiones contra SYLON</h2>
+<p>Completa cada reto para desbloquear el poder de la Venta Humana y derrotar a SYLON.</p>
+
+	<div id="barra-contenedor" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+  	<div style="flex-grow: 1; background-color: #ccc; border-radius: 8px; height: 20px; overflow: hidden;">
+    	<div id="barra-progreso" style="width: 0%; height: 100%; background-color: #4CAF50;"></div>
+ 	 </div>
+ 	 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Five-pointed_star.svg/1200px-Five-pointed_star.svg.png" 
+  	     alt="Estrella" style="width: 24px; height: 24px;" />
+	</div>
+
+      <div id="botonesRetos">
+        <button class="reto-btn" data-reto="1" onclick="abrirReto(1)">Reto 1</button>
+        <button class="reto-btn" data-reto="2" onclick="abrirReto(2)">Reto 2</button>
+        <button class="reto-btn" data-reto="3" onclick="abrirReto(3)">Reto 3</button>
+        <button class="reto-btn" data-reto="4" onclick="abrirReto(4)">Reto 4</button>
+        <button class="reto-btn" data-reto="5" onclick="abrirReto(5)">Reto 5</button>
+        <button class="reto-btn" data-reto="6" onclick="abrirReto(6)">Reto 6</button>
+        <button class="reto-btn" data-reto="7" onclick="abrirReto(7)">Reto 7</button>
+        <button class="reto-btn" data-reto="8" onclick="abrirReto(8)">Reto 8</button>
+      </div>
+      <button class="volver" onclick="mostrarVista('vista-inicio')">Salir</button>
+    </div>
+
+    <div id="vista-reto-detalle" class="hidden">
+      <h2 id="tituloReto"></h2>
+      <p id="descripcionReto"></p>
+      	<p id="instruccionRecursos" style="font-style: italic; color: #555;"></p>
+
+<h3>Recursos para completar el reto:</h3>
+<div id="recursosReto"></div>
+
+<p id="instruccionPlantilla" style="font-style: italic; color: #555;"></p>
+
+<h3>Plantilla a completar:</h3>
+<div id="plantillaReto"></div>
+      <label>Pega aquí el enlace de tu entrega:</label>
+      <input type="url" id="enlaceEntrega" placeholder="https://..." />
+      <button class="enviar" onclick="enviarEntrega()">📤 Enviar enlace</button>
+      <button class="volver" onclick="mostrarVista('vista-retos')">Volver a Misiones</button>
+    </div>
+
+    <div id="vista-insignia" class="hidden insignia">
+  <p>¡Reto superado! ⭐ Has derrotado una parte del sistema de SYLON.</p>
+  <img id="img-insignia" src="" alt="Insignia del reto">
+</div>
+
+
+<script>
+  const URL_SCRIPT = "https://script.google.com/macros/s/AKfycby6BH8BeQQeHE2Ppx-W9lNXSCIu04Y9tO5Hq_G-Xejfb1XTs0ejDU_X-6goKxPx7xzHZA/exec";
+
+  // Objeto para guardar los datos del equipo que inició sesión. ¡Clave para la integración!
+  let equipoActual = { division: null, equipo: null };
+  let retoActual = 0;
+
+ const descripciones = {
+  1: "🧠 Desenmascarar a SYLON con conocimiento humano\n\nSYLON confunde a las personas con tecnicismos vacíos. Tu misión es recuperar la confianza del cliente explicándole qué es Pandero y cómo funciona.\nUsa el contrato y el sistema como tus armas",
+  
+  2: "🎲 Hackea el algoritmo: entiende todas las características de los contratos.\n\nSYLON se aprovecha de los clientes que no entienden sobre su contrato.\nDesactiva la duda, activa la claridad.",
+  
+  3: "❤️ Conectar con el miedo\n\nSYLON quiere que el cliente se sienta solo si deja de pagar.\nTu reto es explicar con empatía qué ocurre en ese caso.\nNo vendas miedo: vende acompañamiento. Usa el contrato como escudo.",
+  
+  4: "🏠 Una serie de registros ha llegado a tus manos. Voces, tonos, silencios... Debes entrenar tu percepción para detectar qué hace que una llamada triunfe (o fracase). Serás observador y juez, mentor y aprendiz.",
+  
+  5: "🧩 Romper la “Incertidumbre”\n\nSYLON ha programado a los humanos a ser temerosos.\nEl asociado ha iniciado su viaje, pero necesita tu guía. Tu deber es trazar el camino sin errores. Crearás un guión con una narrativa muy empática. Si lo haces bien, evitarás que se pierda en el camino.",
+  
+  6: "📱 El escenario ha cambiado. Las pantallas son vitrinas y los videos, vitrales. Es hora de crear contenido para ser visto, compartido y recordado. Cada seguidor es una semilla, cada like una puerta abierta.",
+  
+  7: "💡 La operación final está aquí.  El app es tu comando, el portal está activo. Ya conoces las herramientas, ahora debes usarlas en tiempo real. Demuestra que puedes cerrar un proceso con precisión y eficiencia.",
+  
+  8: "🏠 Domina el mercado: crea tu catálogo de comparativa de precios de los departamentos según distritos.\n\nSYLON cree que los vendedores repiten sin comprender. Tu misión es probar lo contrario.\nArma un catálogo visual con las comparativas por zonas.",
+
+};
+
+const recursos = {
+  1: `
+    <p>Revisa y estudia cuidadosamente el sistema y el contrato que se encuentran en estos enlaces.</p>
+    <ul>
+        <li><a href="https://star.pandero.com.pe/course/view.php?id=148" target="_blank">Sistema Pandero</a></li>
+        <li><a href="https://drive.google.com/file/d/1qBQ4EYaI-f3p2JmZbD6hDsqtMvp-t3UF/view?usp=sharing" target="_blank">Contrato C5</a></li>
+	<li><a href="https://drive.google.com/file/d/1xd9EiAca-sibsUtUwCXgc6rAStGGUMA2/view?usp=sharing" target="_blank">Contrato C9</a></li>
+    </ul>
+  `,
+  2: `
+    <p>Escucha el audio completo para entender más sobre el tipo de contratos, toma nota de los puntos importantes, lo necesitarás para derrotar a las fuerzas oscuras de Sylon</p>
+    <audio controls style="width: 100%;">
+      <source src="https://magical-elf-8424fd.netlify.app/reto_2_casa.mp3" type="audio/mpeg">
+      Tu navegador no soporta audio.
+    </audio>
+  `,
+  3: `<p>Elabora y adapta un discurso comercial para darle seguridad al cliente (escribe un guión). Graba un video y compartelo por redes sociales o por el grupo de whatsapp.</p>
+<ul>
+        <li><a href="https://drive.google.com/file/d/1qBQ4EYaI-f3p2JmZbD6hDsqtMvp-t3UF/view?usp=sharing" target="_blank">Contrato C5</a></li>
+	<li><a href="https://drive.google.com/file/d/1xd9EiAca-sibsUtUwCXgc6rAStGGUMA2/view?usp=sharing" target="_blank">Contrato C9</a></li>
+    </ul>
+`
+,
+  4: `<p>Escucha dos ventas: una falla, otra brilla. Analiza bien... y ayúdanos a vencer a SYLON con lo que aprendas.</p>
+	<p>Caso 1:</p>
+    <audio controls style="width: 100%;">
+      <source src="https://dashing-melomakarona-95ebe0.netlify.app/caso-1.mp3" type="audio/mpeg">
+      Tu navegador no soporta audio.
+    </audio>
+	<p>Caso 2:</p>
+    <audio controls style="width: 100%;">
+      <source src="https://chipper-pika-44723e.netlify.app/caso-2.mp3" type="audio/mpeg">
+      Tu navegador no soporta audio.
+    </audio>
+`,
+  5: `<p>Revisa y estudia cuidadosamente el proceso de tramitación, crea un guión y graba un video. Luego comparte el video por el grupo de Whatsapp</p>
+    <ul>
+        <li><a href="https://drive.google.com/file/d/1ZFloHptQdHMrei_M8ekK-L1TuAymaeWP/view?usp=sharing" target="_blank">Tramitación</a></li>
+    </ul>
+`,
+  6: `<p>Lee la siguiente presentación y utilizalo para inspirarte. Vence a SYLON con el poder de las redes sociales. Postea tu video en Instagram o Tiktok y luego copia el enlace.</p>
+<ul>
+        <li><a href="https://drive.google.com/file/d/11RtWWGiw0datnMXKE1oDcTXAnJ0iGc1j/view?usp=sharing" target="_blank">Manual de ventas</a></li>
+    </ul>`,
+  7: `<p>El app es tu comando, el portal está activo. Ya conoces las herramientas, ahora debes usarlas en tiempo real. Demuestra que puedes cerrar un proceso con precisión y eficiencia.</p>
+<ul>
+        <li><a href="https://drive.google.com/file/d/1h3zQ6gpmyFQVRNUHvT56NKQ5XEGnMqgx/view?usp=sharing" target="_blank">App de ventas</a></li>
+    </ul>`,
+  8: `<p>El reto final está aquí. Crea un catálogo visual con la información de los bienes según la zona, incluyendo imágenes y descripciones.</p>`,
+};
+
+const plantillas = {
+  1: `<p>Ingresa al enlace, regístrate y completa los datos para que puedas vencer a Sylon. Cuando termines de completar todos los campos copia el enlace en modo público.</p>
+      <ul>
+        <li><a href="https://www.canva.com/design/DAGu_nX9jbI/Cix1HTgidL-oOitIat8HNA/view?utm_content=DAGu_nX9jbI&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview" target="_blank">Plantilla en Canva</a></li>
+      </ul>`,
+  2: `<p>Ingresa al enlace y completa el recuadro para que puedas vencer a Sylon. Cuando termines de completar todos los campos copia el enlace en modo público.</p>
+      <ul>
+        <li><a href="https://www.canva.com/design/DAGu_nGSpss/_SRR6-AFtUeyMThlE0GM7A/view?utm_content=DAGu_nGSpss&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview" target="_blank">Comparativo casa</a></li>
+      </ul>`,
+  3: `<p>Este reto no tiene plantilla… porque tú eres quien debe crearla. ¿Serás capaz de improvisar sin una guía? La decisión (y la gloria) es toda tuya.</p>`,
+4: `<p>Ingresa al enlace y completa el recuadro para que puedas vencer a Sylon. Cuando termines de completar todos los campos copia el enlace en modo público.</p>
+<ul>
+        <li><a href="https://www.canva.com/design/DAGu_uHL9I0/qEefNMyw6wTli9d7W9Qfeg/view?utm_content=DAGu_uHL9I0&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview" target="_blank">Plantilla en Canva</a></li>
+      </ul>`,
+5: `<p>Ingresa al enlace y crea el guión. ¿Crees que puedas vencer a SYLON?</p>
+<ul>
+        <li><a href="https://www.canva.com/design/DAGu_HuotnA/hebKM4K2Mu-Vekhw1_WDSQ/view?utm_content=DAGu_HuotnA&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview" target="_blank">Plantilla en Canva</a></li>
+      </ul>`,
+6: `<p>Este reto no tiene plantilla… porque tú eres quien debe crearla. ¿Serás capaz de improvisar sin una guía? La decisión (y la gloria) es toda tuya.</p>`,
+7: `<p>Ingresa al enlace y sube las capturas de pantallas del app y correo para que puedas vencer a Sylon. Cuando termines de realizarlo copia el enlace en modo público.</p>
+<ul>
+        <li><a href="https://www.canva.com/design/DAGu_CP81Gc/DGkWcZFlI3zw2LcmncnFyg/view?utm_content=DAGu_CP81Gc&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview" target="_blank">Plantilla en Canva</a></li>
+      </ul>`,
+8: `<p>Puedes utilizar esta plantilla o crear tu propio modelo. Es el reto final, puedes mostrarle a SYLON todas tus armas y termina con su legado del mal.</p>
+<ul>
+        <li><a href="https://www.canva.com/design/DAGu_Fg83mY/D071hyIr7cZxPBxysIQmdg/view?utm_content=DAGu_Fg83mY&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink&mode=preview" target="_blank">Plantilla en Canva</a></li>
+      </ul>`,
+};
+
+   const insignias = {
+    1: "./img/Insignia1.png",
+    2: "./img/Insignia2.png",
+    3: "./img/Insignia3.png",
+    4: "./img/Insignia4.png",
+    5: "./img/Insignia5.png",
+    6: "./img/Insignia6.png",
+    7: "./img/Insignia7.png",
+    8: "./img/Insignia8.png"
+  };
+
+
+  // --- FUNCIÓN CENTRAL PARA NAVEGAR ---
+  function mostrarVista(idVista) {
+    const vistas = document.querySelectorAll('.container > div');
+    vistas.forEach(vista => vista.classList.add('hidden'));
+    document.getElementById(idVista).classList.remove('hidden');
+  }
+  
+  window.onload = () => mostrarVista('vista-inicio');
+
+  // --- FUNCIONES DE LOGIN Y REGISTRO (MODIFICADAS) ---
+  async function validarRegistro() {
+    const division = document.getElementById("division").value;
+    const equipo = document.getElementById("equipo").value;
+    const dni1 = document.getElementById("dni1").value;
+const dni2 = document.getElementById("dni2").value;
+const dni3 = document.getElementById("dni3").value;
+const dni4 = document.getElementById("dni4").value;
+    const errorP = document.getElementById("errorRegistro");
+
+    if (!division || !equipo) {
+      errorP.textContent = "Completa tu equipo.";
+      return;
+    }
+    
+    // Aquí puedes mantener tu lógica para verificar si el equipo ya existe
+// 1) Pregunto si ya existe hoy este equipo:
+const resCheck = await fetch(
+  `${URL_SCRIPT}?tipo=validarRegistro` +
+  `&division=${encodeURIComponent(division)}` +
+  `&equipo=${encodeURIComponent(equipo)}`
+);
+const dataCheck = await resCheck.json();
+
+if (dataCheck.existe) {
+  const msg = document.getElementById("registroMensaje");
+  msg.textContent = `⚠️ El equipo "${equipo}" ya fue registrado hoy.`;
+  msg.style.display = "block";
+  return;
+}
+
+// 2) Si no existe, continúa aquí con tu fetch POST para guardar el equipo
+
+    
+    const payload = { tipo: "registro", division, equipo, dni1, dni2, dni3, dni4 };
+
+    try {
+      const res = await fetch(URL_SCRIPT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+      const data = await res.json();
+      if (data.status === "success") {
+        equipoActual = { division, equipo }; // Guarda los datos del equipo
+        mostrarVista('vista-retos');
+setTimeout(() => {
+  obtenerRetosCompletados(equipoActual.division, equipoActual.equipo);
+}, 10); // Espera 10 milisegundos
+
+
+      } else {
+        errorP.textContent = `Error: ${data.message}`;
+      }
+    } catch (err) {
+      errorP.textContent = "Error de conexión.";
+    }
+  }
+
+  async function validarIngreso() {
+    const division = document.getElementById("divisionLogin").value;
+    const equipo = document.getElementById("equipoLogin").value;
+    const clave = document.getElementById("claveLogin").value;
+    const errorP = document.getElementById("errorIngreso");
+
+    if (!division || !equipo || !clave) {
+      errorP.textContent = "Completa todos los campos.";
+      return;
+    }
+    const payload = { tipo: "login", division, equipo, clave };
+
+    try {
+      const res = await fetch(URL_SCRIPT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+      const data = await res.json();
+      if (data.status === "success") {
+        equipoActual = { division, equipo }; // Guarda los datos del equipo
+        mostrarVista('vista-retos');
+setTimeout(() => {
+  obtenerRetosCompletados(equipoActual.division, equipoActual.equipo);
+}, 100); // Espera 100 milisegundos
+
+
+      } else {
+        errorP.textContent = `⚠️ ${data.message}`;
+      }
+    } catch (err) {
+      errorP.textContent = "Error de conexión.";
+    }
+  }
+
+  // --- FUNCIONES DE RETOS (ADAPTADAS) ---
+ function abrirReto(n) {
+  retoActual = n;
+
+  document.getElementById("tituloReto").textContent          = "Reto " + n;
+  document.getElementById("descripcionReto").textContent     = descripciones[n]           || "";
+  //document.getElementById("instruccionRecursos").textContent = instruccionesRecursos[n]   || "";
+  document.getElementById("recursosReto").innerHTML          = recursos[n]                || "<p>No hay recursos aún.</p>";
+  //document.getElementById("instruccionPlantilla").textContent= instruccionesPlantilla[n]  || "";
+  document.getElementById("plantillaReto").innerHTML         = plantillas[n]              || "<p>No hay plantilla aún.</p>";
+  document.getElementById("enlaceEntrega").value = "";
+  mostrarVista('vista-reto-detalle');
+}
+
+
+  async function enviarEntrega() {
+    const enlace = document.getElementById("enlaceEntrega").value.trim();
+    if (!enlace) {
+      alert("Debes ingresar un enlace válido.");
+      return;
+    }
+
+    // Usa los datos guardados en `equipoActual`
+    const payload = {
+      tipo: "entrega",
+      division: equipoActual.division,
+      equipo: equipoActual.equipo,
+      reto: "Reto " + retoActual,
+      enlace
+    };
+
+    try {
+      const res = await fetch(URL_SCRIPT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+      const data = await res.json();
+      if (data.status === "success") {
+        const insigniaImg = document.getElementById("img-insignia");
+if (insigniaImg && insignias[retoActual]) {
+  insigniaImg.src = insignias[retoActual];
+}
+mostrarVista('vista-insignia');
+
+        
+        // Deshabilita el botón del reto completado
+        const btns = document.querySelectorAll("#botonesRetos .reto-btn");
+        if (btns[retoActual - 1]) {
+          btns[retoActual - 1].classList.add("disabled");
+        }
+
+        setTimeout(() => {
+  mostrarVista('vista-retos');
+  obtenerRetosCompletados(); // <-- actualiza los botones grises y la barra
+}, 5000);
+      } else {
+        alert("Error al guardar la entrega.");
+      }
+    } catch (err) {
+      alert("Error de conexión.");
+    }
+  }
+async function obtenerRetosCompletados() {
+  const { division, equipo } = equipoActual;
+
+  try {
+    const res = await fetch(`${URL_SCRIPT}?tipo=retosCompletados&division=${division}&equipo=${equipo}`);
+    const data = await res.json();
+
+    if (Array.isArray(data.retos)) {
+      const btns = document.querySelectorAll("#botonesRetos .reto-btn");
+      data.retos.forEach(num => {
+        const btn = btns[num - 1];
+        if (btn) {
+          btn.classList.add("disabled");
+        }
+      });
+	const barra = document.getElementById("barra-progreso");
+      if (barra) {
+        const total = btns.length;
+        const completados = data.retos.length;
+        const porcentaje = (completados / total) * 100;
+        barra.style.width = `${porcentaje}%`;
+      }
+    }
+  } catch (err) {
+    console.error("No se pudieron cargar los retos completados", err);
+  }
+}
+
+</script>
+</body>
+</html>
