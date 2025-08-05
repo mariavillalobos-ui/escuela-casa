@@ -188,48 +188,48 @@ const recursos = {
     <p>Revisa y estudia cuidadosamente el sistema y el contrato que se encuentran en estos enlaces.</p>
     <ul>
         <li><a href="https://star.pandero.com.pe/course/view.php?id=148" target="_blank">Sistema Pandero</a></li>
-        <li><a href="https://drive.google.com/file/d/1qBQ4EYaI-f3p2JmZbD6hDsqtMvp-t3UF/view?usp=sharing" target="_blank">Contrato C5</a></li>
-	<li><a href="https://drive.google.com/file/d/1xd9EiAca-sibsUtUwCXgc6rAStGGUMA2/view?usp=sharing" target="_blank">Contrato C9</a></li>
+        <li><a href="docs/Contrato_sin_Valor_C5.pdf" target="_blank">Contrato C5</a></li>
+	      <li><a href="docs/Contrato_sin_valor_C9.pdf" target="_blank">Contrato C9</a></li>
     </ul>
   `,
   2: `
     <p>Escucha el audio completo para entender más sobre el tipo de contratos, toma nota de los puntos importantes, lo necesitarás para derrotar a las fuerzas oscuras de Sylon</p>
     <audio controls style="width: 100%;">
-      <source src="https://magical-elf-8424fd.netlify.app/reto_2_casa.mp3" type="audio/mpeg">
+      <source src="audios/reto2.mp3" type="audio/mpeg">
       Tu navegador no soporta audio.
     </audio>
   `,
   3: `<p>Elabora y adapta un discurso comercial para darle seguridad al cliente (escribe un guión). Graba un video y compartelo por redes sociales o por el grupo de whatsapp.</p>
-<ul>
-        <li><a href="https://drive.google.com/file/d/1qBQ4EYaI-f3p2JmZbD6hDsqtMvp-t3UF/view?usp=sharing" target="_blank">Contrato C5</a></li>
-	<li><a href="https://drive.google.com/file/d/1xd9EiAca-sibsUtUwCXgc6rAStGGUMA2/view?usp=sharing" target="_blank">Contrato C9</a></li>
+    <ul>
+        <li><a href="docs/Contrato_sin_Valor_C5.pdf" target="_blank">Contrato C5</a></li>
+	      <li><a href="docs/Contrato_sin_valor_C9.pdf" target="_blank">Contrato C9</a></li>
     </ul>
 `
 ,
   4: `<p>Escucha dos ventas: una falla, otra brilla. Analiza bien... y ayúdanos a vencer a SYLON con lo que aprendas.</p>
 	<p>Caso 1:</p>
     <audio controls style="width: 100%;">
-      <source src="https://dashing-melomakarona-95ebe0.netlify.app/caso-1.mp3" type="audio/mpeg">
+      <source src="audios/caso1.mp3" type="audio/mpeg">
       Tu navegador no soporta audio.
     </audio>
 	<p>Caso 2:</p>
     <audio controls style="width: 100%;">
-      <source src="https://chipper-pika-44723e.netlify.app/caso-2.mp3" type="audio/mpeg">
+      <source src="audios/caso2.mp3" type="audio/mpeg">
       Tu navegador no soporta audio.
     </audio>
 `,
   5: `<p>Revisa y estudia cuidadosamente el proceso de tramitación, crea un guión y graba un video. Luego comparte el video por el grupo de Whatsapp</p>
     <ul>
-        <li><a href="https://drive.google.com/file/d/1ZFloHptQdHMrei_M8ekK-L1TuAymaeWP/view?usp=sharing" target="_blank">Tramitación</a></li>
+        <li><a href="docs/3_Tramitación_del_inmueble.pdf" target="_blank">Tramitación</a></li>
     </ul>
 `,
   6: `<p>Lee la siguiente presentación y utilizalo para inspirarte. Vence a SYLON con el poder de las redes sociales. Postea tu video en Instagram o Tiktok y luego copia el enlace.</p>
 <ul>
-        <li><a href="https://drive.google.com/file/d/11RtWWGiw0datnMXKE1oDcTXAnJ0iGc1j/view?usp=sharing" target="_blank">Manual de ventas</a></li>
+        <li><a href="docs/4_Manual_de_Ventas_Casa.pdf" target="_blank">Manual de ventas</a></li>
     </ul>`,
   7: `<p>El app es tu comando, el portal está activo. Ya conoces las herramientas, ahora debes usarlas en tiempo real. Demuestra que puedes cerrar un proceso con precisión y eficiencia.</p>
 <ul>
-        <li><a href="https://drive.google.com/file/d/1h3zQ6gpmyFQVRNUHvT56NKQ5XEGnMqgx/view?usp=sharing" target="_blank">App de ventas</a></li>
+        <li><a href="docs/6_App_de_ventas_2025.pdf" target="_blank">App de ventas</a></li>
     </ul>`,
   8: `<p>El reto final está aquí. Crea un catálogo visual con la información de los bienes según la zona, incluyendo imágenes y descripciones.</p>`,
 };
@@ -284,14 +284,18 @@ const plantillas = {
   
   window.onload = () => mostrarVista('vista-inicio');
 
-  // --- FUNCIONES DE LOGIN Y REGISTRO (MODIFICADAS) ---
+  // --- FUNCIONES DE LOGIN Y REGISTRO ---
   async function validarRegistro() {
+    const boton = event.target;
+    desactivarBotonTemporalmente(boton);
+    
     const division = document.getElementById("division").value;
     const equipo = document.getElementById("equipo").value;
-    const dni1 = document.getElementById("dni1").value;
-const dni2 = document.getElementById("dni2").value;
-const dni3 = document.getElementById("dni3").value;
-const dni4 = document.getElementById("dni4").value;
+    const dni1 = document.getElementById("dni1").value.padStart(8, '0');
+    const dni2 = document.getElementById("dni2").value.padStart(8, '0');
+    const dni3 = document.getElementById("dni3").value.padStart(8, '0');
+    const dni4 = document.getElementById("dni4").value.padStart(8, '0');
+    
     const errorP = document.getElementById("errorRegistro");
 
     if (!division || !equipo) {
@@ -299,13 +303,13 @@ const dni4 = document.getElementById("dni4").value;
       return;
     }
     
-    // Aquí puedes mantener tu lógica para verificar si el equipo ya existe
 // 1) Pregunto si ya existe hoy este equipo:
 const resCheck = await fetch(
   `${URL_SCRIPT}?tipo=validarRegistro` +
   `&division=${encodeURIComponent(division)}` +
   `&equipo=${encodeURIComponent(equipo)}`
 );
+
 const dataCheck = await resCheck.json();
 
 if (dataCheck.existe) {
@@ -357,9 +361,9 @@ setTimeout(() => {
       if (data.status === "success") {
         equipoActual = { division, equipo }; // Guarda los datos del equipo
         mostrarVista('vista-retos');
-setTimeout(() => {
-  obtenerRetosCompletados(equipoActual.division, equipoActual.equipo);
-}, 100); // Espera 100 milisegundos
+        setTimeout(() => {
+        obtenerRetosCompletados(equipoActual.division, equipoActual.equipo);
+      }, 10); // Espera 10 milisegundos
 
 
       } else {
@@ -384,8 +388,10 @@ setTimeout(() => {
   mostrarVista('vista-reto-detalle');
 }
 
-
   async function enviarEntrega() {
+    const boton = event.target;
+    desactivarBotonTemporalmente(boton);
+
     const enlace = document.getElementById("enlaceEntrega").value.trim();
     if (!enlace) {
       alert("Debes ingresar un enlace válido.");
@@ -419,9 +425,9 @@ mostrarVista('vista-insignia');
         }
 
         setTimeout(() => {
-  mostrarVista('vista-retos');
-  obtenerRetosCompletados(); // <-- actualiza los botones grises y la barra
-}, 5000);
+        mostrarVista('vista-retos');
+        obtenerRetosCompletados(); // <-- actualiza los botones grises y la barra
+        }, 5000);
       } else {
         alert("Error al guardar la entrega.");
       }
@@ -457,6 +463,21 @@ async function obtenerRetosCompletados() {
   }
 }
 
+function desactivarBotonTemporalmente(boton, tiempo = 10000) { // Para evitar que dupliquen envíos
+  boton.disabled = true;
+  boton.style.opacity = "0.6";
+  boton.style.cursor = "not-allowed";
+  setTimeout(() => {
+    boton.disabled = false;
+    boton.style.opacity = "1";
+    boton.style.cursor = "pointer";
+  }, tiempo);
+}
 </script>
 </body>
+</html>
+
+</script>
+</body>
+
 </html>
